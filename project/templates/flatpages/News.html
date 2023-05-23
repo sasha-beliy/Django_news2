@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}!
+{% load custom_tags %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+   <h1>Все новости</h1>
+   <h3>{% current_time '%b %d %Y' %}</h3>
+   <h3> {{ next_sale|default_if_none:"Следите за последними новостями!" }} </h3>
+
+   <hr>
+   {% if News %}
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Текст</td>
+           </tr>
+
+           {% for News in News %}
+           <tr>
+               <td>{{ News.title }}</td>
+               <td>{{ News.dataCreation|date: "d M Y" }}</td>
+               <td>{{ News.description|truncatewords:20 }}</td>
+               <td>{{ News.category.name }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
